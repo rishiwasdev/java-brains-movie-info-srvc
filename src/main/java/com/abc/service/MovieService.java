@@ -13,7 +13,10 @@ public interface MovieService {
 
 	ClientResponse getMovie(String movieId);
 
+	ClientResponse getmovieAsClientResponse( String movieId);
+
 	ClientResponse addMovie(MovieDto dto);
 
 	ClientResponse addMovies(HashSet<MovieDto> movies);
+
 }

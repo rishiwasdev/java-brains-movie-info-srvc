@@ -17,28 +17,37 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.abc.config.Constants;
+import com.abc.config.ObjectMapperConfig;
 import com.abc.dto.ClientResponse;
 import com.abc.dto.MovieDto;
 import com.abc.service.MovieService;
 import com.abc.test.DummyData;
 
 @RestController
-@RequestMapping("/movie-info")
+@RequestMapping("/movies")
 public class MovieController {
 	private static final Logger log = LoggerFactory.getLogger(MovieController.class);
 	@Autowired
 	private MovieService movieService;
+	@Autowired
+	private ObjectMapperConfig mapper;
 
 	@GetMapping("")
 	private ResponseEntity<ClientResponse> getMovies() {
 		return createResponse(movieService.getAllMovies()); // TODO - Check for exceptions
 	}
 
-	@GetMapping("/{movieId}")
-	private Object getMovie(@Valid @PathVariable("movieId") String movieId) {
+	@GetMapping("/as-response-entity/{movieId}")
+	private ResponseEntity<ClientResponse> getMovie(@Valid @PathVariable("movieId") String movieId) {
 		log.debug("# Movie ID: {}", movieId);
-		return createResponse(movieService.getMovie(movieId)); // TODO - Check for exceptions
-//		return movieService.getMovie(movieId).getData();
+		ClientResponse response = movieService.getMovie(movieId);
+		log.info("# Returning Movie Response: {}", mapper.toJson(response.getData()));
+		return createResponse(response); // TODO - Check for exceptions
+	}
+
+	@GetMapping("/as-client-response/{movieId}")
+	private ClientResponse getUserRatingAsList(@Valid @PathVariable("movieId") String movieId) {
+		return movieService.getmovieAsClientResponse(movieId);
 	}
 
 	@PostMapping("/")

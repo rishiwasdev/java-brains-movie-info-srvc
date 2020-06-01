@@ -45,6 +45,13 @@ public class MovieServiceImpl implements MovieService {
 		return createClientResponse(dto);
 	}
 
+	@Override
+	public ClientResponse getmovieAsClientResponse(String movieId) {
+		Movie movie = movieRepo.findByMovieId(movieId).orElse(null);
+		log.info("# Movie: {}", movie);
+		return createClientResponse(movie);
+	}
+
 	@Transactional
 	@Override
 	public ClientResponse addMovie(MovieDto dto) {
