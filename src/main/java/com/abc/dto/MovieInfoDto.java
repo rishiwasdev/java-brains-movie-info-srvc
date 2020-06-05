@@ -3,7 +3,7 @@ package com.abc.dto;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class MovieDto {
+public class MovieInfoDto {
 	private String movieId;
 	private String name;
 	private String description;
@@ -48,7 +48,7 @@ public class MovieDto {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		MovieDto other = (MovieDto) obj;
+		MovieInfoDto other = (MovieInfoDto) obj;
 		if (movieId == null) {
 			if (other.movieId != null)
 				return false;

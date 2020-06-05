@@ -5,7 +5,7 @@ import java.util.HashSet;
 import org.springframework.stereotype.Service;
 
 import com.abc.dto.ClientResponse;
-import com.abc.dto.MovieDto;
+import com.abc.dto.MovieInfoDto;
 
 @Service
 public interface MovieService {
@@ -13,10 +13,10 @@ public interface MovieService {
 
 	ClientResponse getMovie(String movieId);
 
-	ClientResponse getmovieAsClientResponse( String movieId);
+	ClientResponse getmovieAsClientResponse(String movieId);
 
-	ClientResponse addMovie(MovieDto dto);
+	ClientResponse addMovie(MovieInfoDto dto);
 
-	ClientResponse addMovies(HashSet<MovieDto> movies);
+	ClientResponse addMovies(HashSet<MovieInfoDto> movies);
 
 }

@@ -8,7 +8,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.abc.config.Constants;
-import com.abc.dto.MovieDto;
+import com.abc.dto.MovieInfoDto;
 import com.abc.util.ReadFile;
 import com.abc.util.Util;
 import com.abc.util.Util_Elementary;
@@ -16,12 +16,12 @@ import com.abc.util.Util_Elementary;
 public class DummyData {
 	private static final Logger log = LoggerFactory.getLogger(DummyData.class);
 
-	public static MovieDto randomMovie() {
+	public static MovieInfoDto randomMovie() {
 		return randomMovie(randomMovieId());
 	}
 
-	public static MovieDto randomMovie(String movieId) {
-		MovieDto dto = new MovieDto();
+	public static MovieInfoDto randomMovie(String movieId) {
+		MovieInfoDto dto = new MovieInfoDto();
 		dto.setMovieId(movieId);
 		dto.setName(Util.randomName(Util_Elementary.randomNumInRange(1, 4)));
 		dto.setDescription(Util.randomName(Util_Elementary.randomNumInRange(3, 10)));
@@ -32,7 +32,7 @@ public class DummyData {
 		return Util_Elementary.randomNumInRange(1950, 2020) + "-" + Util_Elementary.randomNumInRange(1, 99);
 	}
 
-	public static HashSet<MovieDto> addRandomItems(List<MovieDto> savedMovies) {
+	public static HashSet<MovieInfoDto> addRandomItems(List<MovieInfoDto> savedMovies) {
 		List<String> movieProps = ReadFile.getLinesAsList("Movies.properties");
 		int totalSaved = savedMovies.size();
 
@@ -45,7 +45,7 @@ public class DummyData {
 		List<String> savedIds = savedMovies.stream().map(r -> r.getMovieId()).collect(Collectors.toList());
 		movieProps.removeAll(savedIds); // OR duplicate
 		// -----------------------------------
-		HashSet<MovieDto> movies = new HashSet<>();
+		HashSet<MovieInfoDto> movies = new HashSet<>();
 		while (movieProps.size() > 0 && canBeAdded-- > 0) {
 			String movieId = movieProps.remove(Util_Elementary.randomNum(movieProps.size() - 1));
 			if (Util.nullOrEmpty(movieId))

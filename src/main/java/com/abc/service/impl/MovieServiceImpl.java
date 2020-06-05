@@ -12,7 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.abc.config.ObjectMapperConfig;
 import com.abc.dto.ClientResponse;
-import com.abc.dto.MovieDto;
+import com.abc.dto.MovieInfoDto;
 import com.abc.entity.Movie;
 import com.abc.repo.MovieRepo;
 import com.abc.service.MovieService;
@@ -30,7 +30,7 @@ public class MovieServiceImpl implements MovieService {
 	@Override
 	public ClientResponse getAllMovies() {
 		List<Movie> movies = movieRepo.findAll();
-		List<MovieDto> savedMovies = mapper.createList(mapper.toJson(movies), MovieDto.class);
+		List<MovieInfoDto> savedMovies = mapper.createList(mapper.toJson(movies), MovieInfoDto.class);
 		return createClientResponse(savedMovies);
 	}
 
@@ -40,7 +40,7 @@ public class MovieServiceImpl implements MovieService {
 		Movie movie = movieRepo.findByMovieId(movieId).orElse(null);
 		// .orElseThrow(() -> new IllegalArgumentException("No movie found for Movie Id: " + movieId));
 		log.info("# Movie: {}", movie);
-		MovieDto dto = mapper.convert(movie, MovieDto.class);
+		MovieInfoDto dto = mapper.convert(movie, MovieInfoDto.class);
 		log.info("# MovieDto: {}", dto);
 		return createClientResponse(dto);
 	}
@@ -54,19 +54,19 @@ public class MovieServiceImpl implements MovieService {
 
 	@Transactional
 	@Override
-	public ClientResponse addMovie(MovieDto dto) {
+	public ClientResponse addMovie(MovieInfoDto dto) {
 		log.debug("# MovieDto: {}", dto);
 		Movie movie = mapper.convert(dto, Movie.class);
 		log.info("# Movie: {}", movie);
 		Movie savedMovie = movieRepo.save(movie);
 		log.info("# savedMovie: {}", savedMovie);
-		MovieDto savedMovieDto = mapper.convert(savedMovie, MovieDto.class);
+		MovieInfoDto savedMovieDto = mapper.convert(savedMovie, MovieInfoDto.class);
 		return createClientResponse(savedMovieDto);
 	}
 
 	@Transactional
 	@Override
-	public ClientResponse addMovies(HashSet<MovieDto> movieDtos) {
+	public ClientResponse addMovies(HashSet<MovieInfoDto> movieDtos) {
 		if (Util.nullOrEmpty(movieDtos)) {
 			log.error("No movies provided to add.");
 			return null;
